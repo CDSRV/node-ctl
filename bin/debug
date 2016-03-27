@@ -1,0 +1,16 @@
+#/bin/sh
+# runs a script and opens log in a new window 
+# $EDITOR= pick your editor, if not already defined in ENV
+
+
+EDITOR="open -e"			# macosx
+#EDITOR=/usr/dt/bin/dtpad		# cde
+#EDITOR=vi				# term
+
+./bin/$1  > ./logs/$1.log
+ls -laR ./ | grep -v DS >> ./logs/$1.log
+
+$EDITOR ./logs/$1.log
+
+
+

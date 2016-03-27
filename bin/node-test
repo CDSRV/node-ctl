@@ -1,0 +1,84 @@
+#!/bin/sh
+#
+echo 	" ## RUNNING FROM : ""`dirname $0`/`basename $0`"
+		
+	for DESTINATION in `ls $GLOBAL_ROOT/destination/accounts/`
+	
+	do
+
+	export DESTINATION
+	
+	echo " ## ================================ ## "
+	echo " ## START PUSH : " $DATE
+	echo " ## ================================ ## "
+	echo " ## -------------------------------- ## "
+	echo " ## CONFIG DESTINATION  ----------->>>> "
+	echo " ## -------------------------------- ## "
+	echo
+	echo " DESTINATION="$DESTINATION
+
+	. $GLOBAL_ROOT/DESTINATION/$DESTINATION/OS	# source the OS
+
+	echo " OS="$OS
+
+	. $GLOBAL_ROOT/DESTINATION/$DESTINATION/ROLE	# source the ROLEs
+
+	echo " ROLE="$ROLE
+
+	. $GLOBAL_ROOT/DESTINATION/$DESTINATION/METHOD	# preferred method
+
+	echo " METHOD="$METHOD
+
+	echo	
+	echo " ## -------------------------------- ## "
+	echo " ## CHECKING CONNECTIVITY --------->>>> "
+	echo " ## -------------------------------- ## "
+	echo
+	echo " << ssh $DESTINATION uptime"
+	echo " ## log online status for later review"
+	echo
+	echo " << ssh $DESTINATION < ./host-check.sh"
+	echo " ## run some other checks here.."
+	echo
+	echo " -------------------------------------- "
+	echo "# SENDING FILES ------------------->>>> "
+	echo " -------------------------------------- "
+	echo
+
+	for ROLE_OPTION in $ROLE # or `cat $GLOBAL_ROOT/DESTINATION/$DESTINATION/ROLE` 
+	
+	do
+	
+	echo " # OPEN	$DESTINATION :" $ROLE_OPTION PKG : $DATE
+
+	export PKG_SRC=$GLOBAL_ROOT/SOURCE/$OS/$ROLE_OPTION
+
+	export DESTINATION
+
+	$PKG_SRC/_bin/RUN*   2>&1		# log all to the caller
+
+	## $DESTINATION or $1 : you decide..
+	## call the PKG_SRC/bin/RUN with args as to what type of operation to perform
+	## PUSH, CLEAN, ARCHIVE, ETC -- could use a generic wrapper
+
+	echo " # CLOSE		$DESTINATION :" $TYPE PKG : $DATE
+	echo
+	done
+
+	echo " -------------------------------------- "
+	echo " ## TOUCHING DESTINATION LOG ------->>>> "
+	echo " -------------------------------------- "
+	echo
+	echo " << ssh $DESTINATION mkdir $LOG_ROOT-DESTINATION-$BASENAME"
+	echo
+	echo " << ssh $DESTINATION touch /var/log/$DATE_$BASENAME.stamp"
+	echo
+	echo " ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ "
+	echo " >> END : PUSH : "	$DESTINATION $DATE
+	echo " << =================================== >> "
+
+
+	done
+
+#
+#

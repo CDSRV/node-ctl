@@ -1,0 +1,23 @@
+#!/bin/sh
+#
+	
+## <<  run from anywhere : where are we? : $SCRIPT_ROOT = /path/to/the/script
+        
+	export BASENAME=`basename $0`;
+	echo $0 | grep \"^/\" > /dev/null 2>&1
+        
+	if [ $? -eq 1 ]; then
+ 		echo $0 | grep \"^\.\/$BASENAME\" > /dev/null 2>&1
+ 		if [ $? -eq 1 ]; then
+   			export SCRIPT_ROOT=`dirname $PWD/$0 | sed 's/\.\///'`
+ 		else
+   			export SCRIPT_ROOT=$PWD
+ 		fi
+
+		else
+ 			export SCRIPT_ROOT=`dirname $0`
+		fi
+        
+	echo SCRIPT_ROOT=$SCRIPT_ROOT;
+
+	#cd $SCRIPT_ROOT

@@ -1,0 +1,3 @@
+# preferred update method
+export METHOD=RSYNC
+#export METHOD=NFS

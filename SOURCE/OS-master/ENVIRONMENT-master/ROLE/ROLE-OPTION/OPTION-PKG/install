@@ -1,0 +1,2 @@
+#!/bin/sh
+echo " # INSTALLING PKG : THIS PACKAGE : "$DESTINATION

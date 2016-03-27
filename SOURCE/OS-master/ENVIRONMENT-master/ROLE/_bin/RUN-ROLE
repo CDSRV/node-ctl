@@ -1,0 +1,5 @@
+#!/bin/sh
+# resides in $GLOBAL_ROOT/SOURCE/$OS/$ENVIRONMENT/$ROLE/_bin
+# usage : RUN $OPERATION $DESTINATION
+
+echo " adds/removes all ROLE-OPTIONS on DESTINATIONs"

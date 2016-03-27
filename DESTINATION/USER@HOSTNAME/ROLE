@@ -1,0 +1,9 @@
+# configures sources for wrapper to install..
+# a list of directories containing package installers
+# use wildcards or other to add subpackages if they exist
+# imported as $ROLE_OPTION=$ENVIRONMENT/$ROLE/$ROLE-$OPTION
+
+ENVIRONMENT-master/ROLE/ROLE-OPTION
+OS-current/CORE/CORE-NETWORK
+OS-current/CORE/CORE-SECURITY
+OS-current/CORE/CORE-AUDIT

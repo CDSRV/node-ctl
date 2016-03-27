@@ -1,0 +1,68 @@
+#!/bin/sh
+#
+		
+	for DESTINATION in `ls $SCRIPT_ROOT/../destination/accounts/` 
+	
+	do
+	
+	echo
+	echo
+	echo " ## ================================ ## "
+	echo " ## START PUSH : " $DATE
+	echo " ## ================================ ## "
+	echo " ## -------------------------------- ## "
+	echo " ## CONFIG SOURCE ----------------->>>> "
+	echo " ## -------------------------------- ## "
+	echo
+	echo " << SOURCE="$SCRIPT_ROOT/../source/accounts/$DESTINATION
+	echo
+	echo " << SOURCE_LIST=" 
+	
+	ls -la $SCRIPT_ROOT/../source/accounts/$DESTINATION
+	
+	ls -la $SCRIPT_ROOT/../source/packages/SUNOS5.8/_install
+	
+	$SCRIPT_ROOT/../source/packages/SUNOS5.8/_install/template-generic
+
+	echo
+	echo
+	echo " ## -------------------------------- ## "
+	echo " ## CONFIG DESTINATION  ----------->>>> "
+	echo " ## -------------------------------- ## "
+	echo
+	echo " << DESTINATION="$DESTINATION
+	echo
+	echo " ## -------------------------------- ## "
+	echo " ## CHECKING CONNECTIVITY --------->>>> "
+	echo " ## -------------------------------- ## "
+	echo
+	echo " << ssh $DESTINATION uptime"
+	echo " ## log online status for later review"
+	echo
+	echo " << ssh $DESTINATION < ./host-check.sh"
+	echo
+	echo " -------------------------------------- "
+	echo "# SENDING FILES ------------------->>>> "
+	echo " -------------------------------------- "
+	echo
+	echo "<< cd $SCRIPT_ROOT/destination/accounts/$DESTINATION"
+	echo
+	echo "<< rsync -ave ssh "	./ $DESTINATION:~/. 
+	echo
+	echo " -------------------------------------- "
+	echo " ## TOUCHING DESTINATION LOG ------->>>> "
+	echo " -------------------------------------- "
+	echo
+	echo " << ssh $DESTINATION mkdir $LOG_ROOT/push"		# use $LOG_ROOT ?
+	echo
+	echo " << ssh $DESTINATION touch /_logs/$DATE_$BASENAME.stamp"
+	echo
+	echo " ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ "
+	echo " >> END : PUSH : "	$DESTINATION $DATE
+	echo " << =================================== >> "
+
+
+	done
+
+#
+#

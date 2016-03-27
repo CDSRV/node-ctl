@@ -1,0 +1,6 @@
+export ROLE-OPTION=
+	these packages
+	$OPTION-PKG
+	$OPTION-PKG
+	$OPTION-PKG
+;

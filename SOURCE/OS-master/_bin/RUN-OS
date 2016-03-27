@@ -1,0 +1,13 @@
+#!/bin/sh
+# resides in $GLOBAL_ROOT/SOURCE/$OS/_bin
+# usage : RUN $OPERATION $DESTINATION
+
+## run from $GLOBAL_ROOT/SOURCE/$OS
+## if $RUN_CONFIG not set, find it
+## . ./_config/*RUN_CONFIG		# fix
+
+echo " CONFIGs ENVIRONMENTs in the OS on DESTINATIONs"
+echo " this gets into the realm of push/destination control.."
+echo " could be useful running standalone. "
+
+

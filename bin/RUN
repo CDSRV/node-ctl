@@ -1,0 +1,118 @@
+#!/bin/sh 
+#!version=alpha
+#
+#  	Node Operations Wrapper
+echo 	" usage: RUN \$PKG \$SOURCE \$DESTINATION "
+# 
+#
+
+	export DATE=`date +%y%m%d\_%H%M%S`
+	export START_DAY=`date +%y%m%d`
+	export START_DAYTIME=`date +%y%m%d\_%H%M%S`
+
+	echo "# << =================================== >> ";
+	echo "# START : " $DATE		: $0	: $LOGNAME@$HOSTNAME;
+	echo "# vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv ";
+	
+## <<  run from anywhere : where are we? : $SCRIPT_ROOT = /path/to/the/script
+        
+	export BASENAME=`basename $0`;
+	echo $0 | grep \"^/\" > /dev/null 2>&1
+        
+	if [ $? -eq 1 ]; then
+ 		echo $0 | grep \"^\.\/$BASENAME\" > /dev/null 2>&1
+ 		if [ $? -eq 1 ]; then
+   			export SCRIPT_ROOT=`dirname $PWD/$0 | sed 's/\.\///'`
+ 		else
+   			export SCRIPT_ROOT=$PWD
+ 		fi
+
+		else
+ 			export SCRIPT_ROOT=`dirname $0`
+		fi
+        
+	echo " SCRIPT_ROOT="$SCRIPT_ROOT;
+	
+	## done getting $SCRIPT_ROOT..
+
+	## GLOBAL_CONTEXT
+
+	cd $SCRIPT_ROOT/../		## very important to escape out of /bin
+	export GLOBAL_ROOT=$PWD		## and reset SCRIPT_ROOT
+
+	echo " GLOBAL_ROOT="$GLOBAL_ROOT;
+	cd $GLOBAL_ROOT
+
+
+## <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+## << setup as a function for logging
+## FUNCTION:RUN
+function RUN {
+	echo
+	echo "# << =================================== >> ";
+	echo "# << DOING STUFF : :	";
+	echo "# << =================================== >> ";
+	echo
+	echo "# << CONACTING NODE"
+	echo
+	echo "# << BACKING UP CONFIGS"
+	echo
+	echo "# << GENERATING CHECKSUM"
+	echo
+	echo "# << LOGGING CURRENT SYSTEM STATE"
+	echo
+	echo "# << PUSHING FILES"
+	echo
+
+	./bin/push  		2>&1	## run in its own shell. make sure all variables are exported correctly
+	
+	echo "# << =================================== >> ";
+
+	## << send some info to the logfile
+
+	echo "#" $DATE : LOG-ENTRY : $BASENAME >> $LOG
+
+	## reset DATE/TIME for end-of-operation logging
+
+	export DATE=`date +%y%m%d\_%H%M%S`
+
+	echo "# << RUNNING FINISH SCRIPTS"
+	echo
+	echo "# << GENERATING CHECKSUM"
+	echo
+	echo "# << WRITING AUDIT LOG : $LOG"
+	echo
+	echo "# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ ";
+	echo "# END : "  $DATE		: $0
+	echo "# << =================================== >> ";
+	}
+## FUNCTION:RUN
+
+##
+## <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+##
+## START:LOOP:MAIN
+
+## << setup as a function for logging
+## FUNCTION:SETUP
+
+#function SETUP {
+
+## << setup logfiles
+	echo
+	echo "# CONFIGURING LOGFILES"
+	. ./config/init_log	2>&1	## source from subshell
+#}
+## FUNCTION:SETUP
+#SETUP 	2>&1 | tee $LOG		# displays on stdout as well
+
+RUN 	2>&1 | tee $LOG		# displays on stdout as well
+
+## END:LOOP:MAIN
+
+## << display the logfile
+	echo "# << LOG OUTPUT @  "`ls -la $LOG`;
+	echo 
+	#cat $LOG
+	echo "# << =================================== >> ";

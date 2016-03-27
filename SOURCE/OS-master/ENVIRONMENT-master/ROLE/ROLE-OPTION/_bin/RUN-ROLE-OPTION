@@ -1,0 +1,11 @@
+#!/bin/sh
+# resides in $GLOBAL_ROOT/SOURCE/$OS/$ENVIRONMENT/$ROLE/$ROLE-$OPTION/_bin
+# usage : RUN $OPERATION $DESTINATION
+
+echo " ## THIS IS ROLE-OPTION script"
+echo " individual installer for each ROLE OPTION "
+echo " components, fixes, patches, etc "
+
+./*PKG*/*install* 2>&1
+
+echo " its done now.."

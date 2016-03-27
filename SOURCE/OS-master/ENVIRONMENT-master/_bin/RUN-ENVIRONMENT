@@ -1,0 +1,6 @@
+#!/bin/sh
+# resides @ $GLOBAL_ROOT/SOURCE/$OS/_bin
+# usage : RUN $ROLE-OPTION=$ENVIRONMENT/$ROLE/$ROLE-OPTION $DESTINATION
+# goes thru the configured packages
+
+echo " CONFIGs ENVIRONMENT ON $DESTINATION (localhost or otherwise)"

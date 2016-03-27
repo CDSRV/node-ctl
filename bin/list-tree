@@ -1,0 +1,1 @@
+open -e << ls -R | grep ":" | grep -v _ 

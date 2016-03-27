@@ -1,0 +1,27 @@
+#!/bin/sh
+#
+
+## << who to log as
+
+BASENAME=`basename $0`
+
+export START_DAY=`date +%y%m%d`
+
+## << setup a logfile
+
+	
+	export LOG_ROOT=$GLOBAL_ROOT/logs/$START_DAY-$LOGNAME-$HOSTNAME		## << session logging
+	#export LOG_ROOT=$GLOBAL_ROOT/logs/$BASENAME			## << process logging
+	#export LOG_ROOT=$GLOBAL_ROOT/logs/$START_DAY			## << cronological
+
+	if [ ! -d  $LOG_ROOT ]
+		then
+   		mkdir $LOG_ROOT						## << $GLOBAL_ROOT/logs must exist
+	fi
+
+	export LOG=$LOG_ROOT/${DATE}-$BASENAME-$LOGNAME.log		## << atomic by process and user
+	touch $LOG
+
+	echo " LOG="$LOG;
+
+	#ls -la $LOG_ROOT
